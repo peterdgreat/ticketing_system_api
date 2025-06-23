@@ -1,17 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe 'Authentication', type: :request do
-  describe 'POST /auth/login' do
+  describe 'POST /auth/sign_in' do
     let(:user) { create(:user, email: 'test@example.com', password: 'password123') }
 
     it 'returns a JWT token for valid credentials' do
-      post '/auth/login', params: { user: { email: 'test@example.com', password: 'password123' } }
+      user
+      post '/auth/sign_in', params: { user: { email: 'test@example.com', password: 'password123' } }
       expect(response).to have_http_status(:ok)
       expect(JSON.parse(response.body)['token']).to be_present
     end
 
     it 'returns error for invalid credentials' do
-      post '/auth/login', params: { user: { email: 'test@example.com', password: 'wrong' } }
+      user
+      post '/auth/sign_in', params: { user: { email: 'test@example.com', password: 'wrong' } }
       expect(response).to have_http_status(:unauthorized)
       expect(JSON.parse(response.body)['error']).to eq('Invalid email or password')
     end

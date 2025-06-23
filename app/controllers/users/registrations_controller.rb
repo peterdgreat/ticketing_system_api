@@ -1,6 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   def create
-    user= user.new(sign_up_params)
+    user = User.new(sign_up_params)
     if user.save
       token = Warden::JWTAuth::UserEncoder.new.call(user, :user, nil).first
       render json: { token: token, user: { id: user.id, email: user.email, role: user.role } }, status: :created

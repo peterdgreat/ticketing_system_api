@@ -8,8 +8,11 @@ Rails.application.routes.draw do
   devise_for :users, path: "auth", controllers: {
     sessions: "users/sessions",
     registrations: "users/registrations"
-  }, defaults: { format: :json }
+  }, defaults: { format: :json }, skip: [:registrations]
 
+  devise_scope :user do
+    post 'auth/sign_up', to: 'users/registrations#create'
+   end
   # Defines the root path route ("/")
   # root "posts#index"
 end
