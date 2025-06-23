@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :ticket do
-    user { nil }
-    title { "MyString" }
-    description { "MyString" }
-    status { "MyString" }
+    association :user, factory: :user
+    title { Faker::Lorem.sentence }
+    description { Faker::Lorem.paragraph }
+    status { "open" }
   end
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Mutations
-  class CreateTicket < BaseMutation
+  class CreateTicket < GraphQL::Schema::Mutation
     argument :title, String, required: true
     argument :description, String, required: true
     type Types::TicketType
@@ -25,7 +25,7 @@ module Mutations
     private
 
     def authorize!(action, subject)
-      unless Pundit.policy(context[:current_user], subject).send(action?)
+      unless Pundit.policy(context[:current_user], subject).send("#{action}?")
         raise GraphQL::ExecutionError.new("Not authorized to #{action} #{subject.class.name}")
       end
     end

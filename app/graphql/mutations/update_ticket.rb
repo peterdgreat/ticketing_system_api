@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Mutations
-  class UpdateTicket < BaseMutation
+  class UpdateTicket < GraphQL::Schema::Mutation
     argument :id, ID, required: true
     argument :status, String, required: true
     type Types::TicketType
