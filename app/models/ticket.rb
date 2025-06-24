@@ -1,5 +1,6 @@
 class Ticket < ApplicationRecord
   belongs_to :user
+  has_many :comments, dependent: :destroy
   enum :status, {
     open: "open",
     pending: "pending",
@@ -10,4 +11,5 @@ class Ticket < ApplicationRecord
   validates :title, presence: true, length: { maximum: 255 }
   validates :status, presence: true
   validates :user_id, presence: true
+
 end

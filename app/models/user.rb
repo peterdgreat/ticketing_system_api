@@ -2,6 +2,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :jwt_authenticatable,
   jwt_revocation_strategy: Devise::JWT::RevocationStrategies::JTIMatcher
   has_many :tickets, dependent: :destroy
+  has_many :comments, dependent: :destroy
   enum :role,
    {
     customer: "customer", agent: "agent"
