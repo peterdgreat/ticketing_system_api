@@ -10,9 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_23_082520) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_23_221558) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "comments", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "ticket_id", null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ticket_id", "created_at"], name: "index_comments_on_ticket_id_and_created_at"
+    t.index ["ticket_id"], name: "index_comments_on_ticket_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
 
   create_table "tickets", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -35,5 +46,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_23_082520) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "comments", "tickets"
+  add_foreign_key "comments", "users"
   add_foreign_key "tickets", "users"
 end

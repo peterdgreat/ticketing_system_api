@@ -5,5 +5,6 @@ module Types
     field :close_ticket, mutation: Mutations::CloseTicket
     field :update_ticket, mutation: Mutations::UpdateTicket
     field :create_ticket, mutation: Mutations::CreateTicket
+    field :add_comment, mutation: Mutations::AddComment
   end
 end

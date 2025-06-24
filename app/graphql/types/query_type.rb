@@ -7,6 +7,7 @@ module Types
     field :ticket, Types::TicketType, null: false do
       argument :id, ID, required: true
     end
+    field :comments, [Types::CommentType], null: false, resolver: Resolvers::CommentResolver
 
     def ticket(id:)
       ticket = Ticket.find(id)
