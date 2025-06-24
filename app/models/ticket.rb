@@ -12,4 +12,8 @@ class Ticket < ApplicationRecord
   validates :status, presence: true
   validates :user_id, presence: true
 
+  def can_comment?(user)
+       false unless user
+       user.agent? || (user.customer? && user.id == self.user_id && comments.any?{|c|c.user.agent?} )
+  end
 end

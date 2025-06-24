@@ -15,4 +15,22 @@ RSpec.describe Ticket, type: :model do
       expect(Ticket.statuses).to eq({ 'open' => 'open', 'pending' => 'pending', 'resolved' => 'resolved', 'closed' => 'closed' })
     end
   end
+  describe '#can_comment?' do
+  let(:customer) { create(:user, role: 'customer') }
+  let(:agent) { create(:user, :agent) }
+  let(:ticket) { create(:ticket, user: customer) }
+
+  it 'allows agents to comment' do
+    expect(ticket.can_comment?(agent)).to be true
+  end
+
+  it 'allows customers to comment if agent has commented' do
+    create(:comment, ticket: ticket, user: agent)
+    expect(ticket.can_comment?(customer)).to be true
+  end
+
+  it 'prevents customers from commenting without agent comments' do
+    expect(ticket.can_comment?(customer)).to be false
+  end
+end
 end
