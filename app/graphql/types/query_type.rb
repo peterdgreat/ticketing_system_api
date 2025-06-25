@@ -8,7 +8,7 @@ module Types
       argument :id, ID, required: true
     end
     field :comments, [Types::CommentType], null: false, resolver: Resolvers::CommentResolver
-
+    field :attachments, [Types::AttachmentType], null: false, resolver: Resolvers::AttachmentResolver
     def ticket(id:)
       ticket = Ticket.find(id)
       Pundit.authorize(context[:current_user], ticket, :show?)
