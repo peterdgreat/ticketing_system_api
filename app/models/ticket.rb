@@ -1,6 +1,7 @@
 class Ticket < ApplicationRecord
   belongs_to :user
   has_many :comments, dependent: :destroy
+  has_many :attachments, dependent: :destroy
   enum :status, {
     open: "open",
     pending: "pending",

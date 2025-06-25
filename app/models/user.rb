@@ -3,6 +3,7 @@ class User < ApplicationRecord
   jwt_revocation_strategy: Devise::JWT::RevocationStrategies::JTIMatcher
   has_many :tickets, dependent: :destroy
   has_many :comments, dependent: :destroy
+  has_many :attachments, dependent: :destroy
   enum :role,
    {
     customer: "customer", agent: "agent"
