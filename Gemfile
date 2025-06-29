@@ -54,3 +54,6 @@ gem "devise-jwt", "~> 0.11"
 gem "pundit", "~> 2.3"
 gem "aws-sdk-s3", "~> 1.190"
 gem "apollo_upload_server", "~> 2.1"
+gem "graphiql-rails"
+gem 'rack-cors', '~> 1.1', '>= 1.1.1'
+gem 'bcrypt', '~> 3.1.7'

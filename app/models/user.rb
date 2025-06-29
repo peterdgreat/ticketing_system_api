@@ -1,6 +1,8 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :registerable, :jwt_authenticatable,
-  jwt_revocation_strategy: Devise::JWT::RevocationStrategies::JTIMatcher
+  include Devise::JWT::RevocationStrategies::JTIMatcher
+
+  devise :database_authenticatable, :registerable, :jwt_authenticatable, jwt_revocation_strategy: self
+
   has_many :tickets, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :attachments, dependent: :destroy
@@ -13,6 +15,9 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 8 }, on: :create
   before_save :downcase_email
 
+  def jwt_payload
+    { 'jti' => jti }
+  end
   private
 
   def downcase_email
