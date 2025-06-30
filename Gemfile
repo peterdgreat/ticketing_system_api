@@ -47,7 +47,7 @@ group :development, :test do
   gem "shoulda-matchers", "~> 5.0"
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
- gem "dotenv-rails", "~> 2.1", ">= 2.1.1"
+ gem "dotenv-rails", "~> 3.1"
 end
 gem "graphql", "~> 2.3"
 gem "devise", "~> 4.9"
