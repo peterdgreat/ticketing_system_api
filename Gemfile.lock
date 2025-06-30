@@ -369,7 +369,7 @@ GEM
       ffi (~> 1.12)
       logger
     securerandom (0.4.1)
-    shoulda-matchers (5.3.0)
+    shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
     sidekiq (7.3.9)
       base64
@@ -469,7 +469,7 @@ DEPENDENCIES
   rails (~> 8.0.2)
   rspec-rails (~> 6.1)
   rubocop-rails-omakase
-  shoulda-matchers (~> 5.0)
+  shoulda-matchers (~> 6.5)
   sidekiq (~> 7.1, >= 7.1.2)
   sidekiq-cron (~> 2.2)
   solid_cable
