@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
   include Pundit::Authorization
+  include Devise::Controllers::Helpers
 
   before_action :authenticate_user_from_token
 

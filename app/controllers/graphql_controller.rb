@@ -1,52 +1,68 @@
-# frozen_string_literal: true
-
 class GraphqlController < ApplicationController
-  # If accessing from outside this domain, nullify the session
-  # This allows for outside API access while preventing CSRF attacks,
-  # but you'll have to authenticate your user separately
-  # protect_from_forgery with: :null_session
+  include Devise::Controllers::Helpers
 
   def execute
-    variables = prepare_variables(params[:variables])
     query = params[:query]
-    operation_name = params[:operationName]
+    variables = ensure_hash(params[:variables])
+    current_user = is_public_mutation? ? nil : authenticate_user_from_jwt
+    Rails.logger.debug "Devise JWT Auth: User=#{current_user&.id}, Token=#{request.headers['Authorization']}"
     context = {
-      # Query context goes here, for example:
-      current_user: current_user,
+      current_user: current_user
     }
-    result = TicketingSystemSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+
+    result = TicketingSystemSchema.execute(query, variables: variables, context: context)
     render json: result
-  rescue StandardError => e
-    raise e unless Rails.env.development?
-    handle_error_in_development(e)
+  rescue => e
+    Rails.logger.error "GraphQL Error: #{e.message}, Backtrace: #{e.backtrace.join("\n")}"
+    render json: { errors: [{ message: e.message }] }, status: :internal_server_error
   end
 
   private
 
-  # Handle variables in form data, JSON body, or a blank value
-  def prepare_variables(variables_param)
-    case variables_param
+  def ensure_hash(ambiguous_param)
+    case ambiguous_param
     when String
-      if variables_param.present?
-        JSON.parse(variables_param) || {}
-      else
-        {}
-      end
-    when Hash
-      variables_param
-    when ActionController::Parameters
-      variables_param.to_unsafe_hash # GraphQL-Ruby will validate name and type of incoming variables.
+      ambiguous_param.present? ? JSON.parse(ambiguous_param) : {}
+    when Hash, ActionController::Parameters
+      ambiguous_param
     when nil
       {}
     else
-      raise ArgumentError, "Unexpected parameter: #{variables_param}"
+      raise ArgumentError, "Unexpected parameter: #{ambiguous_param}"
     end
   end
 
-  def handle_error_in_development(e)
-    logger.error e.message
-    logger.error e.backtrace.join("\n")
+  def is_public_mutation?
+    query = params[:query]
+    return false unless query
 
-    render json: { errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
+    query.match?(/mutation\s*(?:SignUp|login)\s*(?:\([^)]*\))?\s*{\s*(signUp|login)\s*\(/i) ||
+      params[:operationName]&.match?(/^(SignUp|login)$/i)
+  end
+
+  def authenticate_user_from_jwt
+    token = request.headers['Authorization']&.split('Bearer ')&.last
+    return nil unless token
+
+    begin
+      payload = JWT.decode(token, Rails.application.credentials.secret_key_base, true, { algorithm: 'HS256' }).first
+      user = User.find_by(jti: payload['jti'])
+      if user
+        Rails.logger.debug "JWT Auth Success: User ID=#{user.id}, JTI=#{payload['jti']}"
+        return user
+      else
+        Rails.logger.warn "Invalid JWT: User not found for jti #{payload['jti']}"
+        render json: { errors: [{ message: 'Unauthorized' }] }, status: :unauthorized
+        return nil
+      end
+    rescue JWT::DecodeError => e
+      Rails.logger.warn "JWT Decode Error: #{e.message}"
+      render json: { errors: [{ message: 'Invalid token' }] }, status: :unauthorized
+      nil
+    rescue JWT::ExpiredSignature
+      Rails.logger.warn "JWT Expired: #{token}"
+      render json: { errors: [{ message: 'Token expired' }] }, status: :unauthorized
+      nil
+    end
   end
 end

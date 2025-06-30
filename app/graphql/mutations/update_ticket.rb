@@ -20,8 +20,8 @@ module Mutations
     private
 
     def authorize!(action, subject)
-      unless Pundit.policy(context[:current_user], subject).send(action?)
-        raise GraphQL::ExecutionError.new("Not authorized to #{action} #{subject.class.name}")
+      unless Pundit.policy(context[:current_user], subject).public_send("#{action}?")
+        raise GraphQL::ExecutionError, 'Not authorized'
       end
     end
   end

@@ -10,11 +10,12 @@ class TicketPolicy
   end
 
   def create?
+    return false unless user
     user.customer?
   end
 
   def show?
-    user.agent || (user.customer? && ticket.user_id == user.id)
+    user.agent? || (user.customer? && ticket.user_id == user.id)
   end
 
   def update?

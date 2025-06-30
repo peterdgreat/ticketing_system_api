@@ -7,5 +7,7 @@ module Types
     field :create_ticket, mutation: Mutations::CreateTicket
     field :add_comment, mutation: Mutations::AddComment
     field :upload_attachment, mutation: Mutations::UploadAttachment
+    field :sign_up, mutation: Mutations::SignUp
+    field :login, mutation: Mutations::Login
   end
 end
