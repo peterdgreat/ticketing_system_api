@@ -9,7 +9,9 @@ module Types
       argument :id, ID, required: true
     end
     field :comments, [Types::CommentType], null: false, resolver: Resolvers::CommentResolver
-    field :attachments, [Types::AttachmentType], null: false, resolver: Resolvers::AttachmentResolver
+    field :attachments, [Types::AttachmentType], null: false, resolver: Resolvers::AttachmentResolver do
+      argument :ticket_id, ID, required: true
+    end
 
     def ticket(id:)
       ticket = Ticket.find(id)
@@ -19,6 +21,12 @@ module Types
 
     def user
       context[:current_user]
+    end
+
+    def attachments(ticket_id:)
+      ticket = Ticket.find(ticket_id)
+      Pundit.authorize(context[:current_user], ticket, :show?)
+      Attachment.where(ticket_id: ticket_id).order(created_at: :asc).all
     end
   end
 end
