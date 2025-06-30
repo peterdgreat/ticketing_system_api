@@ -1,0 +1,4 @@
+daily_open_tickets_job:
+  cron: "0 8 * * *"
+  class: "DailyOpenTicketsJob"
+  queue: default
