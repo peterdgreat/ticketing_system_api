@@ -47,6 +47,7 @@ group :development, :test do
   gem "shoulda-matchers", "~> 5.0"
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+ gem "dotenv-rails", "~> 2.1", ">= 2.1.1"
 end
 gem "graphql", "~> 2.3"
 gem "devise", "~> 4.9"
@@ -55,5 +56,7 @@ gem "pundit", "~> 2.3"
 gem "aws-sdk-s3", "~> 1.190"
 gem "apollo_upload_server", "~> 2.1"
 gem "graphiql-rails"
-gem 'rack-cors', '~> 1.1', '>= 1.1.1'
-gem 'bcrypt', '~> 3.1.7'
+gem "rack-cors", "~> 1.1", ">= 1.1.1"
+gem "bcrypt", "~> 3.1.7"
+gem "sidekiq", "~> 7.1", ">= 7.1.2"
+gem "sidekiq-cron", "~> 2.2"
