@@ -14,7 +14,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "http://localhost:5173", "http://127.0.0.1:8080", "https://ticketing-system-frontend-lyart.vercel.app", "https://ticketing-system-frontend-19vkkmrgx-rubywizards-projects.vercel.app/"
+    origins "http://localhost:5173", "http://127.0.0.1:8080", "ticket-system-web.netlify.app"
 
     resource "*",
       headers: :any,
