@@ -81,9 +81,11 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: ticketing_system_production
-    username: ticketing_system
+    database: <%= ENV["TICKETING_SYSTEM_DATABASE"] %>
+    username: <%= ENV["TICKETING_SYSTEM_DATABASE_USERNAME"] %>
     password: <%= ENV["TICKETING_SYSTEM_DATABASE_PASSWORD"] %>
+    host: <%= ENV['TICKETING_SYSTEM_DATABASE_HOST'] %>
+    port: <%= ENV['TICKETING_SYSTEM_DATABASE_PORT'] %>
   cache:
     <<: *primary_production
     database: ticketing_system_production_cache
