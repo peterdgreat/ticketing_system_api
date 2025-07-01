@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   class AttachmentType < Types::BaseObject
     field :id, ID, null: false
@@ -9,20 +11,20 @@ module Types
     field :user, Types::UserType, null: false
     field :created_at, String, null: false
 
-  def file_url
-    Rails.application.routes.url_helpers.rails_blob_url(object.file, only_path: true)
-  end
+    def file_url
+      Rails.application.routes.url_helpers.rails_blob_url(object.blob, only_path: true)
+    end
 
-  def file_type
-    object.file.content_type
-  end
+    def file_type
+      object.blob.content_type
+    end
 
-  def file_name
-    object.file.filename.to_s
-  end
+    def file_name
+      object.blob.filename.to_s
+    end
 
-  def file_size
-    object.file.byte_size
-  end
+    def file_size
+      object.blob.byte_size
+    end
   end
 end

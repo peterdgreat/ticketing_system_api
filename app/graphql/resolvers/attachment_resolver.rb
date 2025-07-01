@@ -9,5 +9,4 @@ module Resolvers
       scope.order(created_at: :desc)
     end
   end
-
 end
