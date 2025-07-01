@@ -30,7 +30,7 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 1.2"
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
 # gem "rack-cors"
@@ -41,7 +41,22 @@ group :development, :test do
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
-
+  gem "rspec-rails", "~> 6.1"
+  gem "factory_bot_rails", "~> 6.4"
+  gem "faker", "~> 3.4"
+  gem "shoulda-matchers", "~> 5.0"
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+ gem "dotenv-rails", "~> 2.1", ">= 2.1.1"
 end
+gem "graphql", "~> 2.3"
+gem "devise", "~> 4.9"
+gem "devise-jwt", "~> 0.11"
+gem "pundit", "~> 2.3"
+gem "aws-sdk-s3", "~> 1.190"
+gem "apollo_upload_server", "~> 2.1"
+gem "graphiql-rails"
+gem "rack-cors", "~> 1.1", ">= 1.1.1"
+gem "bcrypt", "~> 3.1.7"
+gem "sidekiq", "~> 7.1", ">= 7.1.2"
+gem "sidekiq-cron", "~> 2.2"
