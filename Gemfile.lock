@@ -169,7 +169,7 @@ GEM
       activesupport (>= 6.1)
     graphiql-rails (1.10.5)
       railties
-    graphql (2.5.9)
+    graphql (2.5.10)
       base64
       fiber-storage
       logger
@@ -459,7 +459,7 @@ DEPENDENCIES
   factory_bot_rails (~> 6.4)
   faker (~> 3.4)
   graphiql-rails
-  graphql (~> 2.3)
+  graphql (~> 2.5)
   image_processing (~> 1.2)
   kamal
   pg (~> 1.1)
