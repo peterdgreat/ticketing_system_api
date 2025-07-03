@@ -49,7 +49,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
  gem "dotenv-rails", "~> 2.1", ">= 2.1.1"
 end
-gem "graphql", "~> 2.3"
+gem "graphql", "~> 2.5"
 gem "devise", "~> 4.9"
 gem "devise-jwt", "~> 0.11"
 gem "pundit", "~> 2.3"
